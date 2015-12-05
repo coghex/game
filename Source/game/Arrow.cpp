@@ -7,8 +7,8 @@
 // Sets default values
 AArrow::AArrow()
 {
- 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
-	PrimaryActorTick.bCanEverTick = false;
+    // Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
+    PrimaryActorTick.bCanEverTick = false;
     Arrowpointer = CreateDefaultSubobject<UArrowComponent>(TEXT("Arrow"));
     RootComponent = Arrowpointer;
 }
@@ -16,6 +16,6 @@ AArrow::AArrow()
 // Called when the game starts or when spawned
 void AArrow::BeginPlay()
 {
-	Super::BeginPlay();
-	
+    Super::BeginPlay();
+    
 }

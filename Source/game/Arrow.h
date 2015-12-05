@@ -9,15 +9,15 @@
 UCLASS()
 class GAME_API AArrow : public AActor
 {
-	GENERATED_BODY()
-	
-public:	
-	// Sets default values for this actor's properties
-	AArrow();
-
-	// Called when the game starts or when spawned
-	virtual void BeginPlay() override;
-	
+    GENERATED_BODY()
+    
+public:
+    // Sets default values for this actor's properties
+    AArrow();
+    
+    // Called when the game starts or when spawned
+    virtual void BeginPlay() override;
+    
     // get arrow component
     FORCEINLINE class UArrowComponent* GetArrow() const {return Arrowpointer; }
     
@@ -25,5 +25,5 @@ private:
     // arrow component
     UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = "arrow", meta = (AllowPrivateAccess = "true"))
     class UArrowComponent* Arrowpointer;
-	
+    
 };
