@@ -30,8 +30,13 @@ AOrb::AOrb()
     StickMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Stick"));
     StickMesh->AttachTo(RootComponent);
     
+    Prompt = CreateDefaultSubobject<UBillboardComponent>(TEXT("Prompt"));
+    Prompt->SetVisibility(false);
+    Prompt->AttachTo(RootComponent);
+    
     Sphere->OnComponentBeginOverlap.AddDynamic(this, &AOrb::OnOverlapBegin);        // set up a notification for when this component overlaps something
     Sphere->OnComponentEndOverlap.AddDynamic(this, &AOrb::OnOverlapEnd);      // set up a notification for when this component overlaps something
+    OrbMesh->SetVisibility(false);
 }
 
 // Called when the game starts or when spawned
@@ -43,13 +48,12 @@ void AOrb::BeginPlay()
 
 void AOrb::OnOverlapBegin(class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
+    struct FLinearColor red = FLinearColor(255, 0, 0, .8);
     if (OtherActor && (OtherActor != this) && OtherComp)
     {
         if (OtherActor->IsA(APawn::StaticClass())) {
-            ToggleLight();
-        }
-        else {
-            OrbMesh->SetVisibility(false);
+            Prompt->SetVisibility(true);
+            //SetLight(red);
         }
     }
 }
@@ -59,13 +63,15 @@ void AOrb::OnOverlapEnd(class AActor* OtherActor, class UPrimitiveComponent* Oth
     if (OtherActor && (OtherActor != this) && OtherComp)
     {
         if (OtherActor->IsA(APawn::StaticClass())) {
-            ToggleLight();
+            Prompt->SetVisibility(false);
         }
     }
 }
 
-void AOrb::ToggleLight()
+
+void AOrb::SetLight(struct FLinearColor color)
 {
     PointLight->SetVisibility(true);
     OrbMesh->SetVisibility(true);
+    Prompt->SetVisibility(false);
 }

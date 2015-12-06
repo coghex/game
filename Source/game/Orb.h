@@ -32,9 +32,8 @@ public:
     UFUNCTION()
     void OnOverlapEnd(class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
     
-    /** Toggles the light component's visibility*/
     UFUNCTION()
-    void ToggleLight();
+    void SetLight(struct FLinearColor color);
     
     
 private:
@@ -48,6 +47,9 @@ private:
 	
     UPROPERTY(VisibleAnywhere, Category = "orb")
     class UPointLightComponent* PointLight;
+    
+    UPROPERTY(VisibleAnywhere, category = "orb")
+    class UBillboardComponent* Prompt;
     
     /** sphere component */
     UPROPERTY(VisibleAnywhere, Category = "orb")
