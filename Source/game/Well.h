@@ -28,8 +28,11 @@ public:
     UFUNCTION()
     void OnOverlapEnd(class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
     
-    UPROPERTY()
+    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="well")
     bool CanDraw;
+    
+    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="well")
+    int32 Value;
     
     UFUNCTION(BlueprintCallable, Category = "orb")
     void DrawWell();
