@@ -8,7 +8,7 @@
 AWell::AWell()
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
-	PrimaryActorTick.bCanEverTick = true;
+	PrimaryActorTick.bCanEverTick = false;
     
     WellMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Well"));
     RootComponent = WellMesh;
@@ -25,7 +25,6 @@ AWell::AWell()
     CylMesh->OnComponentEndOverlap.AddDynamic(this, &AWell::OnOverlapEnd);      // set up a notification for when this component overlaps something
     Prompt->SetVisibility(false);
     CanDraw = false;
-    Value = 100;
 }
 
 // Called when the game starts or when spawned
@@ -57,13 +56,11 @@ void AWell::OnOverlapEnd(class AActor* OtherActor, class UPrimitiveComponent* Ot
     }
 }
 
-void AWell::DrawWell() {
+bool AWell::DrawWell() {
     int32 i;
     if (Value == 0) {
         CanDraw = false;
-        return;
+        return CanDraw;
     }
-    if (CanDraw) {
-        Value--;
-    }
+    return CanDraw;
 }
