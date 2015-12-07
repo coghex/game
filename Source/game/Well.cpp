@@ -11,7 +11,13 @@ AWell::AWell()
 	PrimaryActorTick.bCanEverTick = false;
     
     WellMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Well"));
-    WellMesh->AttachTo(RootComponent);
+    RootComponent = WellMesh;
+    CylMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Cyl"));
+    CylMesh->AttachTo(RootComponent);
+    BlockMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Block"));
+    BlockMesh->AttachTo(RootComponent);
+    PitMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Pit"));
+    PitMesh->AttachTo(RootComponent);
 }
 
 // Called when the game starts or when spawned

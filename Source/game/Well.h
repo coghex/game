@@ -23,5 +23,13 @@ private:
     // static mesh components
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "well", meta = (AllowPrivateAccess = "true"))
     class UStaticMeshComponent* WellMesh;
-	
+    
+    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "well", meta = (AllowPrivateAccess = "true"))
+    class UStaticMeshComponent* CylMesh;
+    
+    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "well", meta = (AllowPrivateAccess = "true"))
+    class UStaticMeshComponent* BlockMesh;
+    
+    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "well", meta = (AllowPrivateAccess = "true"))
+    class UStaticMeshComponent* PitMesh;
 };
