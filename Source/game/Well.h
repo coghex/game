@@ -18,8 +18,22 @@ public:
 	virtual void BeginPlay() override;
     
     FORCEINLINE class UStaticMeshComponent* GetWellMesh() const {return WellMesh; }
+    FORCEINLINE class UStaticMeshComponent* GetCyllMesh() const {return CylMesh; }
+    FORCEINLINE class UStaticMeshComponent* GetBlockMesh() const {return BlockMesh; }
+    FORCEINLINE class UStaticMeshComponent* GetPitMesh() const {return PitMesh; }
     
-private:
+    UFUNCTION()
+    void OnOverlapBegin(class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+    
+    UFUNCTION()
+    void OnOverlapEnd(class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
+    
+    UPROPERTY()
+    bool CanDraw;
+    
+    UFUNCTION(BlueprintCallable, Category = "orb")
+    void DrawWell();
+    
     // static mesh components
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "well", meta = (AllowPrivateAccess = "true"))
     class UStaticMeshComponent* WellMesh;
@@ -32,4 +46,7 @@ private:
     
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "well", meta = (AllowPrivateAccess = "true"))
     class UStaticMeshComponent* PitMesh;
+    
+    UPROPERTY(VisibleAnywhere, category = "well")
+    class UBillboardComponent* Prompt;
 };
