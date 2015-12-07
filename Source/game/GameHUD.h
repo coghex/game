@@ -23,4 +23,10 @@ public:
     int32 ether;
     
     virtual void DrawHUD() override;
+    
+    UFUNCTION()
+    void SpendEther(int32 amount);
+    
+    UFUNCTION()
+    int32 GetEther();
 };

@@ -2,6 +2,7 @@
 
 #pragma once
 
+#include "GameHUD.h"
 #include "GameFramework/Actor.h"
 #include "Orb.generated.h"
 
@@ -40,6 +41,9 @@ public:
     
     UPROPERTY(VisibleAnywhere, Category = "orb")
     int32 Level;
+    
+    UPROPERTY(VisibleAnywhere, Category = "orb")
+    int32 Multiplier;
     
     UPROPERTY(VisibleAnywhere, Category = "orb")
     struct FLinearColor lastcolor;
