@@ -34,7 +34,7 @@ public:
     void OnOverlapEnd(class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
     
     UFUNCTION(BlueprintCallable, Category = "orb")
-    void SetLight(struct FLinearColor color);
+    void SetLight(struct FLinearColor color, int32 cost);
     
     UPROPERTY(VisibleAnywhere, Category = "orb")
     bool CanPlayerBlaze;
@@ -44,9 +44,6 @@ public:
     
     UPROPERTY(VisibleAnywhere, Category = "orb")
     int32 Multiplier;
-    
-    UPROPERTY(VisibleAnywhere, Category = "orb")
-    struct FLinearColor lastcolor;
     
 private:
     

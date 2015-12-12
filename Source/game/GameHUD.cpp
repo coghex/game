@@ -21,10 +21,13 @@ void AGameHUD::DrawHUD()
     FString PowerLevelString = FString::Printf(TEXT("%d"), ether);
     
     DrawText(PowerLevelString, FColor::White, 50, 50, HUDFont);
+    
 }
 
 void AGameHUD::SpendEther(int32 amount) {
-    ether -= amount;
+    if (amount < ether) {
+        ether -= amount;
+    }
 }
 
 int32 AGameHUD::GetEther() {
