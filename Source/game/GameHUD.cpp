@@ -33,3 +33,4 @@ void AGameHUD::SpendEther(int32 amount) {
 int32 AGameHUD::GetEther() {
     return ether;
 }
+

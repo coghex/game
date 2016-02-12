@@ -17,6 +17,8 @@ public:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
     
+    TSubclassOf<class AWell> WellBP;
+    
     FORCEINLINE class UStaticMeshComponent* GetWellMesh() const {return WellMesh; }
     FORCEINLINE class UStaticMeshComponent* GetCyllMesh() const {return CylMesh; }
     FORCEINLINE class UStaticMeshComponent* GetBlockMesh() const {return BlockMesh; }

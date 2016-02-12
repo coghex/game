@@ -29,6 +29,10 @@ public:
     UPROPERTY(VisibleAnywhere, Category = "orb")
     struct FLinearColor DesiredColor;
     
+    /** called when something enters the sphere component */
+    UFUNCTION()
+    void OnOverlapBegin(class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+    
     /** called when something leaves the sphere component */
     UFUNCTION()
     void OnOverlapEnd(class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
@@ -64,10 +68,6 @@ private:
     UPROPERTY(VisibleAnywhere, Category = "orb")
     class USphereComponent* Sphere;
     
-    /** called when something enters the sphere component */
-    UFUNCTION()
-    void OnOverlapBegin(class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
-    
-    
+
     
 };
