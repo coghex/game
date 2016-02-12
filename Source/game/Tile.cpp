@@ -8,7 +8,7 @@
 
 ATile::ATile()
 {
-	PrimaryActorTick.bCanEverTick = false;
+	PrimaryActorTick.bCanEverTick = true;
     BuildTile();
 }
 
@@ -21,6 +21,9 @@ void ATile::BeginPlay()
     }
     else if (Type == 10) {
         DestroyWall(WallBMesh);
+        DestroyWall(WallFMesh);
+    }
+    else if (Type == 2) {
         DestroyWall(WallFMesh);
     }
 }
@@ -142,29 +145,20 @@ TArray<FTransform> ATile::GetAttachPoints()
     return AttachPoints;
 }
 
-void ATile::OnOverlapBegin(class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
-{
-    if (OtherActor && (OtherActor != this) && OtherComp)
-    {
-        if (OtherActor->IsA(APawn::StaticClass())) {
-            Type=0;
-        }
-    }
-}
-
 void ATile::OnOverlapEnd(class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
 {
     if (OtherActor && (OtherActor != this) && OtherComp)
     {
         if (OtherActor->IsA(APawn::StaticClass())) {
-            Type=0;
+            Parent->AddT(1);
         }
     }
 }
 
-void ATile::init(int32 type, ATile * prev)
+void ATile::init(int32 type, ATile * prev, ATree * par)
 {
     this->Type = type;
+    this->Parent = par;
     if (prev != NULL) {
         this->Prev = prev;
         TArray<FTransform> temp = prev->GetAttachPoints();

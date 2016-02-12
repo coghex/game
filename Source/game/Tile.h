@@ -3,6 +3,7 @@
 #pragma once
 
 #include "well.h"
+#include "Tree.h"
 #include "Kismet/KismetMathLibrary.h"
 #include "GameFramework/Actor.h"
 #include "Tile.generated.h"
@@ -28,7 +29,7 @@ public:
     void DestroyWall(UObject * ToDestroy);
     
     UFUNCTION(BlueprintCallable, Category = "tile")
-    void init(int32 type, ATile * prev);
+    void init(int32 type, ATile * prev, ATree * par);
     
     UFUNCTION(BlueprintCallable, Category = "tile")
     TArray<FTransform> GetAttachPoints();
@@ -44,6 +45,9 @@ public:
     
     UPROPERTY(VisibleAnywhere, Category = "tile")
     ATile * Prev;
+    
+    UPROPERTY(VisibleAnywhere, Category = "tile")
+    ATree * Parent;
     
     UPROPERTY(VisibleAnywhere, Category = "tile")
     struct FTransform RockPoint;
@@ -81,9 +85,6 @@ public:
     
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "tile", meta = (AllowPrivateAccess = "true"))
     class UBoxComponent* TileTrigger;
-private:
-    UFUNCTION(BlueprintCallable, Category = "tile")
-    void OnOverlapBegin(class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
     
     UFUNCTION(BlueprintCallable, Category = "tile")
     void OnOverlapEnd(class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);

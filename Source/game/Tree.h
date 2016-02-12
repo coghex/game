@@ -3,6 +3,7 @@
 #pragma once
 
 #include "Tile.h"
+#include "stdlib.h"
 #include "GameFramework/Actor.h"
 #include "Tree.generated.h"
 
@@ -20,6 +21,9 @@ public:
 	
     UPROPERTY(VisibleAnywhere, Category = "tree")
     int32 numoftiles;
+    
+    UPROPERTY(VisibleAnywhere, Category = "tree")
+    int32 T;
     
     UPROPERTY(VisibleAnywhere, Category = "tree")
     ATile * head;
@@ -46,5 +50,8 @@ public:
     void BuildNextTiles();
     
     UFUNCTION(BlueprintCallable, Category = "tree")
-    void BuildTile(ATile* prev, TArray<ATile*> next, int32 type);
+    void AddT(int32 tpoints);
+    
+    UFUNCTION(BlueprintCallable, Category = "tree")
+    ATile * BuildTile(ATile* prev, int32 type);
 };
