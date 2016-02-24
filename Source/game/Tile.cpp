@@ -84,16 +84,6 @@ void ATile::AddOrb(int32 x, int32 y) {
 
 TArray<FTransform> ATile::GetAttachPoints()
 {
-//    if (Type == 3) {
-//        FVector tempV(-800,400,0);
-//        FTransform tempF(tempV);
-//        AttachPoints[0] = tempF + AttachPoints[0];
-//        FRotator tempR(0,90,0);
-//        FQuat tempQ(tempR);
-//        AttachPoints[0].SetRotation(tempQ);
-//        FVector scale(1,1,1);
-//        AttachPoints[0].SetScale3D(scale);
-//    }
     return AttachPoints;
 }
 

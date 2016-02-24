@@ -36,8 +36,12 @@ void ATree::BeginPlay()
             direction = tempV;
             head = BuildTile(NULL, 2, direction);
             for (i=0; i<10; i++) {
-                if ((rand()%4) > 2) {
+                int rnum = rand()%8;
+                if (rnum == 5) {
                     BuildTile(current[0], 3, direction);
+                }
+                if (rnum == 6) {
+                    BuildTile(current[0], 4, direction);
                 }
                 else {
                     BuildTile(current[0], 10, direction);
@@ -105,7 +109,7 @@ ATile * ATree::BuildTile(ATile* prev, int32 type, FVector dir) {
     {
         FVector tempV(0,0,0);
         rot = direction.Rotation();
-        if (type == 3 && prev->Type == 3) {
+        if ((type == 3 && prev->Type == 3) || (type == 4 && prev->Type == 4)) {
             type = 10;
         }
         if (level == 0) {
@@ -128,6 +132,13 @@ ATile * ATree::BuildTile(ATile* prev, int32 type, FVector dir) {
                 tempR += rot;
                 direction = (tempR.Vector());
                 FVector temptempV(-400,800,0);
+                tempV += rot.RotateVector(temptempV);
+            }
+            if (type == 4) {
+                FRotator tempR(0,-90,0);
+                tempR += rot;
+                direction = (tempR.Vector());
+                FVector temptempV(-800,-400,0);
                 tempV += rot.RotateVector(temptempV);
             }
         }
