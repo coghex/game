@@ -60,6 +60,7 @@ bool AWell::DrawWell() {
     int32 i;
     if (Value == 0) {
         CanDraw = false;
+        Prompt->SetVisibility(false);
         return CanDraw;
     }
     return CanDraw;

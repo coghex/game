@@ -3,6 +3,7 @@
 #pragma once
 
 #include "Tile.h"
+#include "Orb.h"
 #include "stdlib.h"
 #include "GameFramework/Actor.h"
 #include "Tree.generated.h"
@@ -22,10 +23,19 @@ public:
     UPROPERTY(VisibleAnywhere, Category = "tree")
     int32 numoftiles;
     
-    UPROPERTY(VisibleAnywhere, Category = "tree")
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "tree", Meta=(ExposeOnSpawn=true))
     int32 T;
     
-    UPROPERTY(VisibleAnywhere, Category = "tree")
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "tree", Meta=(ExposeOnSpawn=true))
+    int32 level;
+    
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "tree", Meta=(ExposeOnSpawn=true))
+    FVector direction;
+    
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "tree", Meta=(ExposeOnSpawn=true))
+    FRotator rot;
+    
+    UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "tree")
     ATile * head;
     
     UPROPERTY(VisibleAnywhere, Category = "tree")
@@ -36,22 +46,34 @@ public:
     
     UPROPERTY(VisibleAnywhere, Category = "tree")
     ATile * tail;
+
+    UPROPERTY(VisibleAnywhere, Category = "tree")
+    FTransform nextpoint;
     
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "tree", Meta=(ExposeOnSpawn=true))
     TSubclassOf<class ATile> SpawnTile;
     
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "tree", Meta=(ExposeOnSpawn=true))
+    TSubclassOf<class AOrb> SpawnOrb;
+    
     UPROPERTY(VisibleAnywhere, Category = "tree")
     TArray<ATile *> current;
     
-    UPROPERTY(VisibleAnywhere, Category = "tree")
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "tree")
     TArray<FTransform> AttachPoints;
     
     UFUNCTION(BlueprintCallable, Category = "tree")
     void BuildNextTiles();
     
     UFUNCTION(BlueprintCallable, Category = "tree")
+    void BuildWell(ATile * target);
+    
+    UFUNCTION(BlueprintCallable, Category = "tree")
     void AddT(int32 tpoints);
     
     UFUNCTION(BlueprintCallable, Category = "tree")
-    ATile * BuildTile(ATile* prev, int32 type);
+    int32 GetT();
+    
+    UFUNCTION(BlueprintCallable, Category = "tree")
+    ATile * BuildTile(ATile* prev, int32 type, FVector dir);
 };

@@ -43,7 +43,7 @@ public:
     UPROPERTY(VisibleAnywhere, Category = "orb")
     bool CanPlayerBlaze;
     
-    UPROPERTY(VisibleAnywhere, Category = "orb")
+    UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "orb")
     int32 Level;
     
     UPROPERTY(VisibleAnywhere, Category = "orb")

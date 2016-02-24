@@ -16,12 +16,25 @@ ATile::ATile()
 void ATile::BeginPlay()
 {
 	Super::BeginPlay();
+    World = GetWorld();
+    triggered = false;
     if (Type == 1) {
         DestroyWall(WallBMesh);
+        if (Level == 0) {
+            AddWell(100,100);
+        }
     }
     else if (Type == 10) {
         DestroyWall(WallBMesh);
         DestroyWall(WallFMesh);
+    }
+    else if (Type == 3) {
+        DestroyWall(WallBMesh);
+        DestroyWall(WallRMesh);
+    }
+    else if (Type == 4) {
+        DestroyWall(WallBMesh);
+        DestroyWall(WallLMesh);
     }
     else if (Type == 2) {
         DestroyWall(WallFMesh);
@@ -34,114 +47,53 @@ void ATile::BuildTile()
     int32 welllocy = FMath::RandRange(-1000, 0);
     FVector wellloc(welllocx, welllocy, 0);
 
-    //TileTrigger->OnComponentBeginOverlap.AddDynamic(this, &ATile::OnOverlapBegin);        // set up a notification for when this component overlaps something
-    //TileTrigger->OnComponentEndOverlap.AddDynamic(this, &ATile::OnOverlapEnd);      // set up a notification for when this component overlaps something
-    
-//    if (Type < 90) {
-        FloorMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Floor"));
-        RootComponent = FloorMesh;
-        TopMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Top"));
-        TopMesh->AttachTo(RootComponent);
-        TileTrigger = CreateDefaultSubobject<UBoxComponent>(TEXT("TileTrigger"));
-        TileTrigger->AttachTo(RootComponent);
-//        
-//        AttachPoints;
-//        // straight tile
-//        if ((Type < 50) && (Type != 0) && (Type != 1)) {
-//            GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, "straight tile");
-//            WallLMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("WallL"));
-//            WallLMesh->AttachTo(RootComponent);
-//            WallRMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("WallR"));
-//            WallRMesh->AttachTo(RootComponent);
-//            FVector tempV(0,-1000,0);
-//            FTransform tempT(tempV);
-//            AttachPoints.Add(tempT);
-//        }
-//        // left tile
-//        else if (Type >= 50 && Type < 60) {
-//            GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, "left tile");
-//            WallRMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("WallR"));
-//            WallRMesh->AttachTo(RootComponent);
-//            WallBMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("WallB"));
-//            WallBMesh->AttachTo(RootComponent);
-//            FVector tempV(-500,-500,0);
-//            FTransform tempT(tempV);
-//            AttachPoints.Add(tempT);
-//        }
-//        // right tile
-//        else if (Type >= 60 && Type < 70) {
-//            GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, "right tile");
-//            WallLMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("WallL"));
-//            WallLMesh->AttachTo(RootComponent);
-//            WallBMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("WallB"));
-//            WallBMesh->AttachTo(RootComponent);
-//            FVector tempV(500,-500,0);
-//            FTransform tempT(tempV);
-//            AttachPoints.Add(tempT);
-//        }
-//        // fork tile
-//        else if (Type >= 70 && Type < 75) {
-//            GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, "fork tile");
-//            WallBMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("WallB"));
-//            WallBMesh->AttachTo(RootComponent);
-//            FVector tempV1(-500,-500,0);
-//            FTransform tempT1(tempV1);
-//            AttachPoints.Add(tempT1);
-//            FVector tempV2(500,-500,0);
-//            FTransform tempT2(tempV2);
-//            AttachPoints.Add(tempT2);
-//        }
-//        // First tile
-//        else if (Type == 1) {
-//            
-//            WallLMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("WallL"));
-//            WallLMesh->AttachTo(RootComponent);
-//            WallRMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("WallR"));
-//            WallRMesh->AttachTo(RootComponent);
-//            WallFMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("WallF"));
-//            WallFMesh->AttachTo(RootComponent);
-//            FVector tempV(0,-1000,0);
-//            FTransform tempT(tempV);
-//            AttachPoints.Add(tempT);
-//        }
-//        // Everytile, this is done so UE4 understands all these objects get inherited
-//        else if (Type == 0) {
-            //GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, "dont call this");
-            WallLMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("WallL"));
-            WallLMesh->AttachTo(RootComponent);
-            WallRMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("WallR"));
-            WallRMesh->AttachTo(RootComponent);
-            WallFMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("WallF"));
-            WallFMesh->AttachTo(RootComponent);
-            WallBMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("WallB"));
-            WallBMesh->AttachTo(RootComponent);
-//        }
-//        RockMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Rock"));
-//        RockMesh->AttachTo(RootComponent);
-//    }
-//    else {
-//        // stairs up tile
-//        if (Type < 95) {
-//            UpStairMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("UStair"));
-//            RootComponent = UpStairMesh;
-//        }
-//        // stairs down tile
-//        else {
-//            DownStairMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("DStair"));
-//            RootComponent = DownStairMesh;
-//        }
-//        WallLMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("WallL"));
-//        WallLMesh->AttachTo(RootComponent);
-//        WallRMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("WallR"));
-//        WallRMesh->AttachTo(RootComponent);
-//        TopMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Top"));
-//        TopMesh->AttachTo(RootComponent);
-//        
-//    }
+    FloorMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Floor"));
+    RootComponent = FloorMesh;
+    TopMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Top"));
+    TopMesh->AttachTo(RootComponent);
+    TileTrigger = CreateDefaultSubobject<UBoxComponent>(TEXT("TileTrigger"));
+    TileTrigger->AttachTo(RootComponent);
+    WallLMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("WallL"));
+    WallLMesh->AttachTo(RootComponent);
+    WallRMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("WallR"));
+    WallRMesh->AttachTo(RootComponent);
+    WallFMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("WallF"));
+    WallFMesh->AttachTo(RootComponent);
+    WallBMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("WallB"));
+    WallBMesh->AttachTo(RootComponent);
+
+}
+
+void ATile::AddWell(int32 x, int32 y) {
+    if (World) {
+        FActorSpawnParameters SpawnParams;
+        FVector Location(x,y,-50);
+        FRotator Rotation;
+        AWell* Well = (AWell*)World->SpawnActor<AWell>(SoulWell, Location, Rotation, SpawnParams);
+    }
+}
+
+void ATile::AddOrb(int32 x, int32 y) {
+    if (World) {
+        FActorSpawnParameters SpawnParams;
+        FVector Location(x,y,0);
+        FRotator Rotation;
+        AOrb* Orb = (AOrb*)World->SpawnActor<AOrb>(TheOrb, Location, Rotation, SpawnParams);
+    }
 }
 
 TArray<FTransform> ATile::GetAttachPoints()
 {
+//    if (Type == 3) {
+//        FVector tempV(-800,400,0);
+//        FTransform tempF(tempV);
+//        AttachPoints[0] = tempF + AttachPoints[0];
+//        FRotator tempR(0,90,0);
+//        FQuat tempQ(tempR);
+//        AttachPoints[0].SetRotation(tempQ);
+//        FVector scale(1,1,1);
+//        AttachPoints[0].SetScale3D(scale);
+//    }
     return AttachPoints;
 }
 
@@ -149,31 +101,25 @@ void ATile::OnOverlapEnd(class AActor* OtherActor, class UPrimitiveComponent* Ot
 {
     if (OtherActor && (OtherActor != this) && OtherComp)
     {
-        if (OtherActor->IsA(APawn::StaticClass())) {
+        if (OtherActor->IsA(APawn::StaticClass()) && (!triggered)) {
             Parent->AddT(1);
+            triggered=true;
         }
     }
 }
 
-void ATile::init(int32 type, ATile * prev, ATree * par)
+void ATile::init(int32 type, int32 level, ATile * next, ATile * prev, ATree * par, FTransform Location, TSubclassOf<class AOrb> Orb)
 {
     this->Type = type;
     this->Parent = par;
+    this->Level = level;
+    if (next != NULL) {
+        this->NextTiles.Add(next);
+    }
     if (prev != NULL) {
         this->Prev = prev;
-        TArray<FTransform> temp = prev->GetAttachPoints();
-        FVector tempV(0,400,0);
-        FVector scale(1,1,1);
-        FTransform tempT(tempV);
-        tempT = tempT+temp[0];
-        tempT.SetScale3D(scale);
-        this->AttachPoints.Add(tempT);
     }
-    else {
-        FVector tempV(0,400,0);
-        FTransform tempT(tempV);
-        this->AttachPoints.Add(tempT);
-    }
+    this->AttachPoints.Add(Location);
 }
 
 void ATile::DestroyWall(UObject * ToDestroy)

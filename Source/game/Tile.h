@@ -2,7 +2,8 @@
 
 #pragma once
 
-#include "well.h"
+#include "Well.h"
+#include "Orb.h"
 #include "Tree.h"
 #include "Kismet/KismetMathLibrary.h"
 #include "GameFramework/Actor.h"
@@ -21,15 +22,27 @@ public:
     
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
+    
+    UPROPERTY(VisibleAnywhere, Category = "tile")
+    UWorld* World;
+    
+    UPROPERTY(VisibleAnywhere, Category = "tile")
+    bool triggered;
 	
     UFUNCTION(BlueprintCallable, Category = "tile")
     void BuildTile();
     
     UFUNCTION(BlueprintCallable, Category = "tile")
+    void AddWell(int32 x, int32 y);
+    
+    UFUNCTION(BlueprintCallable, Category = "tile")
+    void AddOrb(int32 x, int32 y);
+    
+    UFUNCTION(BlueprintCallable, Category = "tile")
     void DestroyWall(UObject * ToDestroy);
     
     UFUNCTION(BlueprintCallable, Category = "tile")
-    void init(int32 type, ATile * prev, ATree * par);
+    void init(int32 type, int32 level, ATile * next, ATile * prev, ATree * par, FTransform Location, TSubclassOf<class AOrb> Orb);
     
     UFUNCTION(BlueprintCallable, Category = "tile")
     TArray<FTransform> GetAttachPoints();
@@ -37,13 +50,16 @@ public:
     UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "tile", Meta=(ExposeOnSpawn=true))
     int32 Type;
     
+    UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "tile", Meta=(ExposeOnSpawn=true))
+    int32 Level;
+    
     UPROPERTY(VisibleAnywhere, Category = "tile")
     TArray<FTransform> AttachPoints;
     
-    UPROPERTY(VisibleAnywhere, Category = "tile")
-    TArray<ATile *> NextTile;
+    UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "tile")
+    TArray<ATile *> NextTiles;
     
-    UPROPERTY(VisibleAnywhere, Category = "tile")
+    UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "tile")
     ATile * Prev;
     
     UPROPERTY(VisibleAnywhere, Category = "tile")
@@ -85,6 +101,12 @@ public:
     
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "tile", meta = (AllowPrivateAccess = "true"))
     class UBoxComponent* TileTrigger;
+
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "tile", Meta=(ExposeOnSpawn=true))
+    TSubclassOf<class AWell> SoulWell;
+    
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "tile", Meta=(ExposeOnSpawn=true))
+    TSubclassOf<class AOrb> TheOrb;
     
     UFUNCTION(BlueprintCallable, Category = "tile")
     void OnOverlapEnd(class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
