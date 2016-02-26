@@ -54,6 +54,9 @@ public:
     TSubclassOf<class ATile> SpawnTile;
     
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "tree", Meta=(ExposeOnSpawn=true))
+    TSubclassOf<class ATile> StairTile;
+    
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "tree", Meta=(ExposeOnSpawn=true))
     TSubclassOf<class AOrb> SpawnOrb;
     
     UPROPERTY(VisibleAnywhere, Category = "tree")

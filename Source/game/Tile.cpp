@@ -25,18 +25,28 @@ void ATile::BeginPlay()
         }
     }
     else if (Type == 10) {
-        DestroyWall(WallBMesh);
-        DestroyWall(WallFMesh);
+        if (Level == 0) {
+            DestroyWall(WallLMesh);
+            DestroyWall(WallRMesh);
+        }
+        else {
+            DestroyWall(WallBMesh);
+            DestroyWall(WallFMesh);
+        }
     }
     else if (Type == 3) {
-        DestroyWall(WallBMesh);
+        DestroyWall(WallFMesh);
         DestroyWall(WallRMesh);
     }
     else if (Type == 4) {
-        DestroyWall(WallBMesh);
+        DestroyWall(WallFMesh);
         DestroyWall(WallLMesh);
     }
     else if (Type == 2) {
+        DestroyWall(WallFMesh);
+    }
+    else if (Type == 5) {
+        DestroyWall(WallBMesh);
         DestroyWall(WallFMesh);
     }
 }
