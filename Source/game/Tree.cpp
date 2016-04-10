@@ -16,7 +16,7 @@ ATree::ATree()
 void ATree::BeginPlay()
 {
     Super::BeginPlay();
-    int i;
+    int i,j;
     AttachPoints.Empty();
     // Create the head
     World = GetWorld();
@@ -35,8 +35,8 @@ void ATree::BeginPlay()
             FVector tempV(1,0,0);
             direction = tempV;
             head = BuildTile(NULL, 1, direction);
-            for (i=0; i<20; i++) {
-                int rnum = rand()%10;
+            for (i=0; i<((rand()%10)+length); i++) {
+                int rnum = rand()%20;
                 if (rnum == 5) {
                     BuildTile(current[0], 3, direction);
                 }
@@ -46,16 +46,19 @@ void ATree::BeginPlay()
                 if (rnum == 7) {
                     BuildTile(current[0], 5, direction);
                     rnum = rand()%4;
-                    for (i=0; i<rnum; i++) {
+                    for (j=0; j<rnum; j++) {
                         BuildTile(current[0], 5, direction);
                     }
                 }
                 if (rnum == 8) {
                     BuildTile(current[0], 6, direction);
                     rnum = rand()%4;
-                    for (i=0; i<rnum; i++) {
+                    for (j=0; j<rnum; j++) {
                         BuildTile(current[0], 6, direction);
                     }
+                }
+                if (rnum == 9) {
+                    BuildTile(current[0], 7, direction);
                 }
                 else {
                     BuildTile(current[0], 10, direction);
@@ -96,6 +99,7 @@ void ATree::BuildWell(ATile * target){
 }
 
 ATile * ATree::BuildTile(ATile* prev, int32 type, FVector dir) {
+    FTransform nottemp;
     if (prev == NULL) {
         TArray<FTransform> temp;
         
@@ -158,6 +162,9 @@ ATile * ATree::BuildTile(ATile* prev, int32 type, FVector dir) {
         if ((type == 3 && prev->Type == 3) || (type == 4 && prev->Type == 4)) {
             type = 10;
         }
+        if (type == 7 && prev->Type == 7) {
+            type = rand()%10+1;
+        }
         
         FVector tempV(0,0,0);
         FRotator tempR(0,0,0);
@@ -205,6 +212,26 @@ ATile * ATree::BuildTile(ATile* prev, int32 type, FVector dir) {
                 tempV += (400*direction);
                 tempV += StairUp;
             }
+            else if (type == 7) {
+                FVector scale2(1,1,1);
+                FRotator temptempR(0,-90,0);
+                temptempR += rot;
+                tempV-=(400*direction);
+                direction = (temptempR.Vector());
+                tempV+=(400*direction);
+                FTransform tempT2(tempV);
+                FQuat tempQ2(direction.Rotation()+tempR);
+                tempT2.SetRotation(tempQ2);
+                tempT2.SetScale3D(scale2);
+                nottemp = tempT2;
+                
+                FRotator temptemptempR(0,90,0);
+                temptempR = temptemptempR + rot;
+                tempV-=(1200*direction);
+                direction = (temptempR.Vector());
+                FVector fudge(direction.Y, -direction.X, 0);
+                tempV+=(400*fudge);
+            }
             else {
                 tempV += (400*dir);
             }
@@ -217,15 +244,40 @@ ATile * ATree::BuildTile(ATile* prev, int32 type, FVector dir) {
         nextpoint.SetScale3D(scale);
         FQuat tempQ(direction.Rotation()+tempR);
         nextpoint.SetRotation(tempQ);
-        nexttile->init(type, level, NULL, prev, this, nextpoint, SpawnOrb);
+        nexttile->init(type, level, NULL, prev, this, nextpoint, nottemp, SpawnOrb);
         if (prev != NULL) {
             prev->NextTiles.Add(nexttile);
         }
         UGameplayStatics::FinishSpawningActor(nexttile, AttachPoints[0]);
+        
+//        if (type == 7) {
+//            nottemp = nextpoint;
+//            fork = (ATree *)World->SpawnActorDeferred<ATree>(ATree::StaticClass(), nottemp, nullptr, nullptr, ESpawnActorCollisionHandlingMethod::AlwaysSpawn);
+//            fork->level = 1;
+//            fork->length = 1;
+//            FVector fudge(direction.Y, direction.X, 0);
+//            fork->direction = fudge;
+//            fork->rot = rot;
+//            fork->SpawnTile = SpawnTile;
+//            fork->StairTile = StairTile;
+//            fork->SpawnOrb = SpawnOrb;
+//            UGameplayStatics::FinishSpawningActor(fork, nottemp);
+//        }
     }
 
     current.Empty();
     current.Add(nexttile);
     tail = nexttile;
     return nexttile;
+}
+
+FTransform ATree::GetLightCoords() {
+    FVector tempV(0,0,5);
+    FVector temptempV(direction.Y,-direction.X,0);
+    tempV += (-200*direction);
+    tempV += (-200*temptempV);
+    FTransform tempT(tempV);
+    return (tempT+nextpoint);
+    
+    
 }

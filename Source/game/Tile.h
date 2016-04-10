@@ -42,7 +42,7 @@ public:
     void DestroyWall(UObject * ToDestroy);
     
     UFUNCTION(BlueprintCallable, Category = "tile")
-    void init(int32 type, int32 level, ATile * next, ATile * prev, ATree * par, FTransform Location, TSubclassOf<class AOrb> Orb);
+    void init(int32 type, int32 level, ATile * next, ATile * prev, ATree * par, FTransform Location, FTransform Location2, TSubclassOf<class AOrb> Orb);
     
     UFUNCTION(BlueprintCallable, Category = "tile")
     TArray<FTransform> GetAttachPoints();

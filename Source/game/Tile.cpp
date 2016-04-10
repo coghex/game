@@ -45,8 +45,13 @@ void ATile::BeginPlay()
     else if (Type == 2) {
         DestroyWall(WallFMesh);
     }
-    else if (Type == 5) {
+    else if (Type == 5 || Type == 6) {
         DestroyWall(WallBMesh);
+        DestroyWall(WallFMesh);
+    }
+    else if (Type == 7) {
+        DestroyWall(WallLMesh);
+        DestroyWall(WallRMesh);
         DestroyWall(WallFMesh);
     }
 }
@@ -108,7 +113,7 @@ void ATile::OnOverlapEnd(class AActor* OtherActor, class UPrimitiveComponent* Ot
     }
 }
 
-void ATile::init(int32 type, int32 level, ATile * next, ATile * prev, ATree * par, FTransform Location, TSubclassOf<class AOrb> Orb)
+void ATile::init(int32 type, int32 level, ATile * next, ATile * prev, ATree * par, FTransform Location, FTransform Location2, TSubclassOf<class AOrb> Orb)
 {
     this->Type = type;
     this->Parent = par;
@@ -120,6 +125,7 @@ void ATile::init(int32 type, int32 level, ATile * next, ATile * prev, ATree * pa
         this->Prev = prev;
     }
     this->AttachPoints.Add(Location);
+    this->AttachPoints.Add(Location2);
 }
 
 void ATile::DestroyWall(UObject * ToDestroy)
@@ -132,4 +138,3 @@ void ATile::DestroyWall(UObject * ToDestroy)
 
     GetWorld()->ForceGarbageCollection(true);
 }
-

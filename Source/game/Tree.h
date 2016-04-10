@@ -30,6 +30,12 @@ public:
     int32 level;
     
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "tree", Meta=(ExposeOnSpawn=true))
+    int32 length;
+    
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "tree", Meta=(ExposeOnSpawn=true))
+    bool start;
+    
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "tree", Meta=(ExposeOnSpawn=true))
     FVector direction;
     
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "tree", Meta=(ExposeOnSpawn=true))
@@ -46,9 +52,15 @@ public:
     
     UPROPERTY(VisibleAnywhere, Category = "tree")
     ATile * tail;
+    
+    UPROPERTY(VisibleAnywhere, Category = "tree")
+    ATree * fork;
 
     UPROPERTY(VisibleAnywhere, Category = "tree")
     FTransform nextpoint;
+    
+    UPROPERTY(VisibleAnywhere, Category = "tree")
+    FTransform nextpoint2;
     
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "tree", Meta=(ExposeOnSpawn=true))
     TSubclassOf<class ATile> SpawnTile;
@@ -79,4 +91,7 @@ public:
     
     UFUNCTION(BlueprintCallable, Category = "tree")
     ATile * BuildTile(ATile* prev, int32 type, FVector dir);
+    
+    UFUNCTION(BlueprintCallable, Category = "tree")
+    FTransform GetLightCoords();
 };
